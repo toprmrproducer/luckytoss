@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+	{
+		q: 'Is LuckyToss really free?',
+		a: 'Yes. Every roll and flip runs on your own device, so there is no server cost per use and no reason to charge or limit usage.',
+	},
+	{
+		q: 'Is the randomness actually fair?',
+		a: "Yes. LuckyToss uses the browser's built-in Math.random() for both the coin flip and dice roll, giving each outcome an equal, unbiased chance.",
+	},
+	{
+		q: 'Is any of my data saved or uploaded?',
+		a: 'No. Everything — flips, rolls, streaks, and history — happens locally in your browser tab. Nothing is sent to a server, and it all resets when you refresh.',
+	},
+	{
+		q: 'How many dice can I roll at once?',
+		a: 'You can roll between 1 and 6 dice at a time, with a running total and a short history of recent rolls.',
+	},
+	{
+		q: 'What happens on a hot streak?',
+		a: 'Land a streak of 3 or more of the same coin result, roll all 6s, or hit the maximum possible dice total, and LuckyToss celebrates with a short confetti animation.',
+	},
+];
+---
+
+<Layout
+	title="FAQ — LuckyToss"
+	description="Frequently asked questions about LuckyToss's free, private, browser-based dice roller and coin flip simulator."
+	canonicalPath="/faq"
+>
+	<div class="mx-auto max-w-2xl">
+		<h1 class="font-display text-3xl font-semibold tracking-tight text-[#2B2013]">
+			Frequently Asked Questions
+		</h1>
+		<div class="mt-8 space-y-8">
+			{
+				faqs.map((item) => (
+					<div class="rounded-xl border border-[#E8DFC8] bg-white p-5">
+						<h2 class="font-display text-lg font-semibold text-[#2B2013]">{item.q}</h2>
+						<p class="mt-2 text-[#5C4F3D]">{item.a}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</Layout>

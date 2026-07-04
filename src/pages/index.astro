@@ -1,0 +1,620 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="LuckyToss — Dice Roller & Coin Flip"
+	description="Free online dice roller and coin flip simulator. Roll 1-6 animated dice with real pip faces, flip an animated 3D coin, track streaks and history — no signup, 100% client-side."
+	canonicalPath="/"
+>
+	<section class="text-center">
+		<h1 class="font-display text-4xl font-semibold tracking-tight text-[#2B2013] sm:text-5xl">
+			Roll the Dice, <span class="text-[#C9982E]">Flip the Coin</span>
+		</h1>
+		<p class="mx-auto mt-4 max-w-2xl text-lg text-[#5C4F3D]">
+			Flip a coin or roll up to six dice, right in your browser. Streaks,
+			running tallies, and a short history included.
+		</p>
+	</section>
+
+	<section class="mx-auto mt-10 max-w-2xl text-sm leading-relaxed text-[#8A7B62]">
+		<p>
+			Both tools use <strong class="text-[#5C4F3D]">Math.random()</strong> for
+			fair, unbiased results and run entirely on your device &mdash; nothing is
+			sent to a server. The coin flips through a real 3D CSS animation between
+			hand-drawn heads and tails faces, and the dice show true pip layouts
+			just like a physical die. Land a
+			<strong class="text-[#5C4F3D]">streak of 3+</strong>
+			or roll
+			<strong class="text-[#5C4F3D]">all-6s</strong>
+			for a little celebration.
+		</p>
+	</section>
+
+	<!-- Tab switcher -->
+	<section class="mx-auto mt-10 max-w-3xl">
+		<div class="flex justify-center gap-2 rounded-xl border border-[#E8DFC8] bg-white p-1.5 shadow-sm">
+			<button
+				id="tab-coin"
+				type="button"
+				class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition"
+			>
+				Coin Flip
+			</button>
+			<button
+				id="tab-dice"
+				type="button"
+				class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition"
+			>
+				Dice Roller
+			</button>
+		</div>
+
+		<!-- ============ COIN FLIP PANEL ============ -->
+		<div id="panel-coin" class="mt-8">
+			<div class="flex flex-col items-center rounded-2xl border border-[#E8DFC8] bg-white p-8 shadow-sm">
+				<div
+					id="coin-scene"
+					class="relative h-40 w-40"
+					style="perspective: 800px;"
+				>
+					<div
+						id="coin"
+						class="relative h-full w-full transition-transform duration-[1400ms] ease-out"
+						style="transform-style: preserve-3d;"
+					>
+						<!-- Heads face -->
+						<div
+							class="absolute inset-0 flex items-center justify-center rounded-full"
+							style="backface-visibility: hidden;"
+						>
+							<svg viewBox="0 0 100 100" class="h-full w-full drop-shadow-md">
+								<defs>
+									<radialGradient id="headsGrad" cx="35%" cy="30%" r="75%">
+										<stop offset="0%" stop-color="#E8C888" />
+										<stop offset="100%" stop-color="#B8860B" />
+									</radialGradient>
+								</defs>
+								<circle cx="50" cy="50" r="48" fill="url(#headsGrad)" stroke="#2B2013" stroke-width="2" />
+								<circle cx="50" cy="50" r="40" fill="none" stroke="#FAF6EC" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+								<!-- simple hand-drawn face -->
+								<circle cx="38" cy="45" r="4" fill="#FAF6EC" />
+								<circle cx="62" cy="45" r="4" fill="#FAF6EC" />
+								<path d="M35 63 Q50 75 65 63" stroke="#FAF6EC" stroke-width="4" fill="none" stroke-linecap="round" />
+								<path d="M30 32 Q38 24 46 30" stroke="#FAF6EC" stroke-width="3" fill="none" stroke-linecap="round" />
+								<path d="M54 30 Q62 24 70 32" stroke="#FAF6EC" stroke-width="3" fill="none" stroke-linecap="round" />
+								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#FAF6EC" font-family="sans-serif">HEADS</text>
+							</svg>
+						</div>
+						<!-- Tails face -->
+						<div
+							class="absolute inset-0 flex items-center justify-center rounded-full"
+							style="backface-visibility: hidden; transform: rotateY(180deg);"
+						>
+							<svg viewBox="0 0 100 100" class="h-full w-full drop-shadow-md">
+								<defs>
+									<radialGradient id="tailsGrad" cx="35%" cy="30%" r="75%">
+										<stop offset="0%" stop-color="#5C4F3D" />
+										<stop offset="100%" stop-color="#2B2013" />
+									</radialGradient>
+								</defs>
+								<circle cx="50" cy="50" r="48" fill="url(#tailsGrad)" stroke="#2B2013" stroke-width="2" />
+								<circle cx="50" cy="50" r="40" fill="none" stroke="#E8DFC8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5" />
+								<!-- hand-drawn laurel + star -->
+								<path d="M50 28 L54 40 L67 40 L57 48 L61 61 L50 53 L39 61 L43 48 L33 40 L46 40 Z" fill="#E8DFC8" />
+								<path d="M28 55 Q22 65 30 75" stroke="#E8DFC8" stroke-width="2.5" fill="none" stroke-linecap="round" />
+								<path d="M72 55 Q78 65 70 75" stroke="#E8DFC8" stroke-width="2.5" fill="none" stroke-linecap="round" />
+								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#E8DFC8" font-family="sans-serif">TAILS</text>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<p id="coin-result-label" class="mt-6 h-7 text-lg font-semibold text-[#2B2013]">
+					Ready to flip
+				</p>
+
+				<button
+					id="flip-btn"
+					class="mt-4 rounded-xl bg-[#C9982E] px-8 py-3 font-semibold text-white transition hover:bg-[#B8860B]"
+				>
+					Flip Coin
+				</button>
+
+				<!-- Tally -->
+				<div class="mt-8 grid w-full max-w-sm grid-cols-3 gap-3 text-center">
+					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
+						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Heads</p>
+						<p id="tally-heads" class="mt-1 text-2xl font-bold text-[#2B2013]">0</p>
+					</div>
+					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
+						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Tails</p>
+						<p id="tally-tails" class="mt-1 text-2xl font-bold text-[#2B2013]">0</p>
+					</div>
+					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
+						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Streak</p>
+						<p id="tally-streak" class="mt-1 text-2xl font-bold text-[#C9982E]">0</p>
+					</div>
+				</div>
+
+				<button
+					id="coin-reset-btn"
+					class="mt-4 text-sm font-medium text-[#8A7B62] underline decoration-[#E8DFC8] underline-offset-4 transition hover:text-[#B8860B]"
+				>
+					Reset tally
+				</button>
+
+				<!-- History -->
+				<div id="coin-history-wrapper" class="mt-8 hidden w-full max-w-sm">
+					<p class="mb-2 text-xs font-medium tracking-wide text-[#8A7B62] uppercase">
+						Last flips
+					</p>
+					<div id="coin-history-list" class="flex flex-wrap gap-2"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ============ DICE PANEL ============ -->
+		<div id="panel-dice" class="mt-8 hidden">
+			<div class="flex flex-col items-center rounded-2xl border border-[#E8DFC8] bg-white p-8 shadow-sm">
+				<div>
+					<label for="dice-count" class="block text-center text-sm font-medium text-[#5C4F3D]">
+						Number of dice
+					</label>
+					<select
+						id="dice-count"
+						class="mt-2 w-40 rounded-lg border border-[#E8DFC8] bg-white px-3 py-2 text-center text-sm text-[#2B2013] focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
+					>
+						<option value="1">1 die</option>
+						<option value="2" selected>2 dice</option>
+						<option value="3">3 dice</option>
+						<option value="4">4 dice</option>
+						<option value="5">5 dice</option>
+						<option value="6">6 dice</option>
+					</select>
+				</div>
+
+				<div id="dice-tray" class="mt-8 flex flex-wrap items-center justify-center gap-4"></div>
+
+				<p id="dice-sum-label" class="mt-6 h-7 text-lg font-semibold text-[#2B2013]"></p>
+
+				<button
+					id="roll-btn"
+					class="mt-4 rounded-xl bg-[#C9982E] px-8 py-3 font-semibold text-white transition hover:bg-[#B8860B]"
+				>
+					Roll Dice
+				</button>
+
+				<button
+					id="dice-reset-btn"
+					class="mt-4 text-sm font-medium text-[#8A7B62] underline decoration-[#E8DFC8] underline-offset-4 transition hover:text-[#B8860B]"
+				>
+					Clear history
+				</button>
+
+				<!-- History -->
+				<div id="dice-history-wrapper" class="mt-8 hidden w-full max-w-md">
+					<p class="mb-2 text-xs font-medium tracking-wide text-[#8A7B62] uppercase">
+						Last rolls
+					</p>
+					<div id="dice-history-list" class="flex flex-col gap-2"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<style>
+		#coin.is-tails {
+			transform: rotateY(180deg);
+		}
+		#coin.is-flipping-heads {
+			animation: flip-to-heads 1.4s cubic-bezier(0.34, 1.1, 0.4, 1);
+		}
+		#coin.is-flipping-tails {
+			animation: flip-to-tails 1.4s cubic-bezier(0.34, 1.1, 0.4, 1);
+		}
+		@keyframes flip-to-heads {
+			0% {
+				transform: rotateY(0deg) translateY(0);
+			}
+			45% {
+				transform: rotateY(900deg) translateY(-40px);
+			}
+			100% {
+				transform: rotateY(1800deg) translateY(0);
+			}
+		}
+		@keyframes flip-to-tails {
+			0% {
+				transform: rotateY(0deg) translateY(0);
+			}
+			45% {
+				transform: rotateY(990deg) translateY(-40px);
+			}
+			100% {
+				transform: rotateY(1980deg) translateY(0);
+			}
+		}
+		.die-face {
+			transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+		.die-face.is-rolling {
+			animation: die-tumble 0.6s ease-out;
+		}
+		@keyframes die-tumble {
+			0% {
+				transform: rotate(0deg) scale(1);
+			}
+			30% {
+				transform: rotate(120deg) scale(1.08);
+			}
+			60% {
+				transform: rotate(260deg) scale(0.95);
+			}
+			100% {
+				transform: rotate(360deg) scale(1);
+			}
+		}
+	</style>
+
+	<script>
+		import confetti from 'canvas-confetti';
+
+		// -------------------- Security helper --------------------
+		// Any user-influenced text rendered via innerHTML must be escaped first.
+		// Nothing here is truly "user-controlled" (all values are internally
+		// generated numbers/strings), but every text-insertion path is routed
+		// through this helper as a standing defensive requirement.
+		const escapeHtml = (value: string): string =>
+			value
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;');
+
+		// -------------------- Tab switching --------------------
+		const tabCoin = document.getElementById('tab-coin') as HTMLButtonElement;
+		const tabDice = document.getElementById('tab-dice') as HTMLButtonElement;
+		const panelCoin = document.getElementById('panel-coin') as HTMLDivElement;
+		const panelDice = document.getElementById('panel-dice') as HTMLDivElement;
+
+		const ACTIVE_TAB = 'flex-1 rounded-lg bg-[#C9982E] px-4 py-2 text-sm font-semibold text-white transition';
+		const INACTIVE_TAB =
+			'flex-1 rounded-lg px-4 py-2 text-sm font-semibold text-[#5C4F3D] transition hover:text-[#B8860B]';
+
+		const setTab = (which: 'coin' | 'dice') => {
+			const isCoin = which === 'coin';
+			tabCoin.className = isCoin ? ACTIVE_TAB : INACTIVE_TAB;
+			tabDice.className = !isCoin ? ACTIVE_TAB : INACTIVE_TAB;
+			panelCoin.classList.toggle('hidden', !isCoin);
+			panelDice.classList.toggle('hidden', isCoin);
+		};
+
+		tabCoin.addEventListener('click', () => setTab('coin'));
+		tabDice.addEventListener('click', () => setTab('dice'));
+		setTab('coin');
+
+		// -------------------- Confetti helper --------------------
+		const celebrate = () => {
+			confetti({
+				particleCount: 90,
+				spread: 70,
+				origin: { y: 0.6 },
+				colors: ['#C9982E', '#B8860B', '#E8DFC8', '#2B2013'],
+				disableForReducedMotion: true,
+			});
+		};
+
+		const bigCelebrate = () => {
+			const duration = 700;
+			const end = Date.now() + duration;
+			(function frame() {
+				confetti({
+					particleCount: 4,
+					angle: 60,
+					spread: 60,
+					origin: { x: 0, y: 0.6 },
+					colors: ['#C9982E', '#B8860B', '#E8DFC8'],
+					disableForReducedMotion: true,
+				});
+				confetti({
+					particleCount: 4,
+					angle: 120,
+					spread: 60,
+					origin: { x: 1, y: 0.6 },
+					colors: ['#C9982E', '#B8860B', '#E8DFC8'],
+					disableForReducedMotion: true,
+				});
+				if (Date.now() < end) requestAnimationFrame(frame);
+			})();
+		};
+
+		// ==================== COIN FLIP ====================
+		const coin = document.getElementById('coin') as HTMLDivElement;
+		const flipBtn = document.getElementById('flip-btn') as HTMLButtonElement;
+		const coinResultLabel = document.getElementById('coin-result-label') as HTMLParagraphElement;
+		const tallyHeadsEl = document.getElementById('tally-heads') as HTMLParagraphElement;
+		const tallyTailsEl = document.getElementById('tally-tails') as HTMLParagraphElement;
+		const tallyStreakEl = document.getElementById('tally-streak') as HTMLParagraphElement;
+		const coinResetBtn = document.getElementById('coin-reset-btn') as HTMLButtonElement;
+		const coinHistoryWrapper = document.getElementById('coin-history-wrapper') as HTMLDivElement;
+		const coinHistoryList = document.getElementById('coin-history-list') as HTMLDivElement;
+
+		let coinIsTails = false;
+		let isFlipping = false;
+		let headsCount = 0;
+		let tailsCount = 0;
+		let streak = 0;
+		let lastSide: 'heads' | 'tails' | null = null;
+		let coinHistory: ('heads' | 'tails')[] = [];
+
+		const renderCoinHistory = () => {
+			if (coinHistory.length === 0) {
+				coinHistoryWrapper.classList.add('hidden');
+				return;
+			}
+			coinHistoryWrapper.classList.remove('hidden');
+			coinHistoryList.innerHTML = '';
+			coinHistory.forEach((side) => {
+				const chip = document.createElement('span');
+				chip.className =
+					side === 'heads'
+						? 'rounded-full bg-[#F3E6C4] px-3 py-1 text-xs font-semibold text-[#8A6A1A]'
+						: 'rounded-full bg-[#E8DFC8] px-3 py-1 text-xs font-semibold text-[#5C4F3D]';
+				chip.textContent = side === 'heads' ? 'H' : 'T';
+				coinHistoryList.appendChild(chip);
+			});
+		};
+
+		flipBtn.addEventListener('click', () => {
+			if (isFlipping) return;
+			isFlipping = true;
+			flipBtn.disabled = true;
+			flipBtn.classList.add('opacity-60');
+			coinResultLabel.textContent = 'Flipping…';
+
+			const result: 'heads' | 'tails' = Math.random() < 0.5 ? 'heads' : 'tails';
+			const willLandTails = result === 'tails';
+
+			coin.classList.remove('is-flipping-heads', 'is-flipping-tails');
+			// force reflow so the animation restarts every click
+			void coin.offsetWidth;
+			coin.classList.add(willLandTails ? 'is-flipping-tails' : 'is-flipping-heads');
+
+			setTimeout(() => {
+				coinIsTails = willLandTails;
+				coin.classList.remove('is-flipping-heads', 'is-flipping-tails');
+				coin.classList.toggle('is-tails', coinIsTails);
+
+				coinResultLabel.textContent = result === 'heads' ? 'Heads!' : 'Tails!';
+
+				if (result === 'heads') {
+					headsCount += 1;
+					tallyHeadsEl.textContent = String(headsCount);
+				} else {
+					tailsCount += 1;
+					tallyTailsEl.textContent = String(tailsCount);
+				}
+
+				if (lastSide === result) {
+					streak += 1;
+				} else {
+					streak = 1;
+				}
+				lastSide = result;
+				tallyStreakEl.textContent = String(streak);
+
+				coinHistory.unshift(result);
+				coinHistory = coinHistory.slice(0, 12);
+				renderCoinHistory();
+
+				if (streak >= 3) {
+					celebrate();
+				}
+
+				isFlipping = false;
+				flipBtn.disabled = false;
+				flipBtn.classList.remove('opacity-60');
+			}, 1400);
+		});
+
+		coinResetBtn.addEventListener('click', () => {
+			headsCount = 0;
+			tailsCount = 0;
+			streak = 0;
+			lastSide = null;
+			coinHistory = [];
+			tallyHeadsEl.textContent = '0';
+			tallyTailsEl.textContent = '0';
+			tallyStreakEl.textContent = '0';
+			coinResultLabel.textContent = 'Ready to flip';
+			renderCoinHistory();
+		});
+
+		// ==================== DICE ROLLER ====================
+		const diceCountSelect = document.getElementById('dice-count') as HTMLSelectElement;
+		const diceTray = document.getElementById('dice-tray') as HTMLDivElement;
+		const diceSumLabel = document.getElementById('dice-sum-label') as HTMLParagraphElement;
+		const rollBtn = document.getElementById('roll-btn') as HTMLButtonElement;
+		const diceResetBtn = document.getElementById('dice-reset-btn') as HTMLButtonElement;
+		const diceHistoryWrapper = document.getElementById('dice-history-wrapper') as HTMLDivElement;
+		const diceHistoryList = document.getElementById('dice-history-list') as HTMLDivElement;
+
+		let diceRolling = false;
+		let diceRollHistory: { values: number[]; sum: number }[] = [];
+
+		// Pip layout per face value, as [row, col] on a 3x3 grid (0-indexed)
+		const PIP_LAYOUTS: Record<number, [number, number][]> = {
+			1: [[1, 1]],
+			2: [
+				[0, 0],
+				[2, 2],
+			],
+			3: [
+				[0, 0],
+				[1, 1],
+				[2, 2],
+			],
+			4: [
+				[0, 0],
+				[0, 2],
+				[2, 0],
+				[2, 2],
+			],
+			5: [
+				[0, 0],
+				[0, 2],
+				[1, 1],
+				[2, 0],
+				[2, 2],
+			],
+			6: [
+				[0, 0],
+				[0, 2],
+				[1, 0],
+				[1, 2],
+				[2, 0],
+				[2, 2],
+			],
+		};
+
+		const CELL = 30; // px spacing per grid cell inside the 100x100 viewBox
+		const OFFSET = 20; // starting position for col/row 0
+
+		const buildDieSvg = (value: number): string => {
+			const pips = PIP_LAYOUTS[value] ?? [];
+			const circles = pips
+				.map(([row, col]) => {
+					const cx = OFFSET + col * CELL;
+					const cy = OFFSET + row * CELL;
+					return `<circle cx="${cx}" cy="${cy}" r="7" fill="#B8860B" />`;
+				})
+				.join('');
+
+			// value/gradient id components are internally generated numbers —
+			// still routed through escapeHtml as a standing defensive measure.
+			const gradId = escapeHtml(`dieGrad-${value}-${Math.random().toString(36).slice(2)}`);
+
+			return `
+				<svg viewBox="0 0 100 100" class="h-full w-full drop-shadow-sm">
+					<defs>
+						<linearGradient id="${gradId}" x1="0" y1="0" x2="1" y2="1">
+							<stop offset="0%" stop-color="#ffffff" />
+							<stop offset="100%" stop-color="#FBF3DE" />
+						</linearGradient>
+					</defs>
+					<rect x="4" y="4" width="92" height="92" rx="18" fill="#ffffff" stroke="#E8DFC8" stroke-width="3" />
+					${circles}
+				</svg>
+			`;
+		};
+
+		const buildDiceTray = (count: number) => {
+			diceTray.innerHTML = '';
+			for (let i = 0; i < count; i += 1) {
+				const wrapper = document.createElement('div');
+				wrapper.className = 'die-face h-16 w-16 sm:h-20 sm:w-20';
+				wrapper.dataset.dieIndex = String(i);
+				wrapper.innerHTML = buildDieSvg(1);
+				diceTray.appendChild(wrapper);
+			}
+			diceSumLabel.textContent = '';
+		};
+
+		buildDiceTray(Number(diceCountSelect.value));
+
+		diceCountSelect.addEventListener('change', () => {
+			buildDiceTray(Number(diceCountSelect.value));
+		});
+
+		const renderDiceHistory = () => {
+			if (diceRollHistory.length === 0) {
+				diceHistoryWrapper.classList.add('hidden');
+				return;
+			}
+			diceHistoryWrapper.classList.remove('hidden');
+			diceHistoryList.innerHTML = '';
+			diceRollHistory.forEach((roll) => {
+				const row = document.createElement('div');
+				row.className =
+					'flex items-center justify-between rounded-lg border border-[#E8DFC8] bg-[#FAF6EC] px-4 py-2';
+
+				const valuesLabel = document.createElement('span');
+				valuesLabel.className = 'truncate text-sm font-medium text-[#5C4F3D]';
+				valuesLabel.textContent = roll.values.join(' + ');
+
+				const sumLabel = document.createElement('span');
+				sumLabel.className = 'shrink-0 text-sm font-bold text-[#C9982E]';
+				sumLabel.textContent = `= ${roll.sum}`;
+
+				row.appendChild(valuesLabel);
+				row.appendChild(sumLabel);
+				diceHistoryList.appendChild(row);
+			});
+		};
+
+		rollBtn.addEventListener('click', () => {
+			if (diceRolling) return;
+			diceRolling = true;
+			rollBtn.disabled = true;
+			rollBtn.classList.add('opacity-60');
+
+			const count = Number(diceCountSelect.value);
+			const dieEls = Array.from(diceTray.children) as HTMLDivElement[];
+
+			dieEls.forEach((el) => {
+				el.classList.remove('is-rolling');
+				void el.offsetWidth;
+				el.classList.add('is-rolling');
+			});
+
+			// Quick flicker of random faces during the "roll" for visual feedback
+			let ticks = 0;
+			const flicker = setInterval(() => {
+				dieEls.forEach((el) => {
+					const randomFace = Math.floor(Math.random() * 6) + 1;
+					el.innerHTML = buildDieSvg(randomFace);
+				});
+				ticks += 1;
+				if (ticks >= 6) {
+					clearInterval(flicker);
+
+					const values: number[] = [];
+					for (let i = 0; i < count; i += 1) {
+						const value = Math.floor(Math.random() * 6) + 1;
+						values.push(value);
+						dieEls[i].innerHTML = buildDieSvg(value);
+					}
+
+					const sum = values.reduce((acc, v) => acc + v, 0);
+					const maxPossible = count * 6;
+					diceSumLabel.textContent =
+						count === 1 ? `You rolled a ${sum}` : `Total: ${sum} (${values.join(' + ')})`;
+
+					diceRollHistory.unshift({ values, sum });
+					diceRollHistory = diceRollHistory.slice(0, 10);
+					renderDiceHistory();
+
+					const allSixes = count >= 2 && values.every((v) => v === 6);
+					if (allSixes || sum === maxPossible) {
+						bigCelebrate();
+					} else if (count === 1 && sum === 6) {
+						celebrate();
+					}
+
+					diceRolling = false;
+					rollBtn.disabled = false;
+					rollBtn.classList.remove('opacity-60');
+				}
+			}, 90);
+		});
+
+		diceResetBtn.addEventListener('click', () => {
+			diceRollHistory = [];
+			renderDiceHistory();
+			diceSumLabel.textContent = '';
+			buildDiceTray(Number(diceCountSelect.value));
+		});
+	</script>
+</Layout>
