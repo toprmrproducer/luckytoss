@@ -14,6 +14,7 @@ const withBase = (path: string) => {
 	return trimmed ? `${base}/${trimmed}` : `${base}/`;
 };
 const canonical = new URL(withBase(canonicalPath), Astro.site).toString();
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -36,44 +37,81 @@ const canonical = new URL(withBase(canonicalPath), Astro.site).toString();
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
+		<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 	</head>
-	<body class="min-h-screen bg-[#FAF6EC] font-sans text-[#5C4F3D] antialiased">
-		<header class="border-b border-[#E8DFC8]">
-			<nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+	<body class="min-h-screen antialiased">
+		<header class="border-b border-[#eae4d6] bg-white/85 backdrop-blur">
+			<nav class="mx-auto flex max-w-[820px] items-center justify-between px-6 py-5">
 				<a
 					href={withBase('/')}
-					class="font-display text-xl font-semibold tracking-tight text-[#2B2013]"
+					class="font-[Sora] text-xl font-extrabold tracking-tight text-[#221b10]"
 				>
-					Lucky<span class="text-[#C9982E]">Toss</span>
+					Lucky<span class="text-[#c9982e]">Toss</span>
 				</a>
-				<div class="hidden items-center gap-6 text-sm font-medium text-[#5C4F3D] sm:flex">
-					<a href={withBase('/faq')} class="transition hover:text-[#B8860B]">FAQ</a>
-					<a href={withBase('/about')} class="transition hover:text-[#B8860B]">About</a>
+				<div class="hidden items-center gap-7 text-[15px] font-semibold text-[#4a4234] sm:flex">
+					<a href={withBase('/')} class="transition hover:text-[#b8860b]">Roll</a>
+					<a href={withBase('/faq')} class="transition hover:text-[#b8860b]">FAQ</a>
+					<a href={withBase('/about')} class="transition hover:text-[#b8860b]">About</a>
 				</div>
 			</nav>
 		</header>
 
-		<main class="mx-auto max-w-5xl px-6 py-14">
-			<slot />
-		</main>
+		{/* Top leaderboard ad slot — reserved, invisible until a real <ins> is dropped in */}
+		<div class="ad-slot ad-leaderboard mx-auto px-6 pt-6" data-ad-slot="leaderboard" style="max-width:970px;min-height:0">
+			<!-- AdSense: paste responsive <ins class="adsbygoogle"> here -->
+		</div>
 
-		<footer class="mt-24 border-t border-[#E8DFC8]">
-			<div class="mx-auto max-w-5xl px-6 py-10 text-sm text-[#5C4F3D]">
-				<p>
+		{/*
+			Three-column shell: left skyscraper gutter | 820px content | right skyscraper gutter.
+			Skyscrapers only render >=1280px (xl); below that the content column stays centered
+			and the gutters collapse. All ad slots are empty + invisible until populated.
+		*/}
+		<div class="mx-auto flex w-full max-w-[1360px] items-start justify-center gap-8 px-4">
+			<aside class="ad-slot hidden w-[160px] shrink-0 xl:block" data-ad-slot="skyscraper-left" style="position:sticky;top:120px;min-height:0">
+				<!-- AdSense: paste responsive <ins class="adsbygoogle"> here -->
+			</aside>
+
+			<main class="mx-auto w-full max-w-[820px] px-6 pt-24 pb-28">
+				<slot />
+			</main>
+
+			<aside class="ad-slot hidden w-[160px] shrink-0 xl:block" data-ad-slot="skyscraper-right" style="position:sticky;top:120px;min-height:0">
+				<!-- AdSense: paste responsive <ins class="adsbygoogle"> here -->
+			</aside>
+		</div>
+
+		{/* Bottom in-article ad slot — reserved, invisible until populated */}
+		<div class="ad-slot ad-in-article mx-auto px-6 pb-6" data-ad-slot="in-article" style="max-width:728px;min-height:0">
+			<!-- AdSense: paste responsive <ins class="adsbygoogle"> here -->
+		</div>
+
+		<footer class="mt-10 border-t border-[#eae4d6] bg-[#faf8f3]">
+			<div class="mx-auto max-w-[820px] px-6 py-12 text-[15px] text-[#4a4234]">
+				<p class="max-w-2xl">
 					Every roll and flip happens locally in your browser using
 					Math.random() &mdash; nothing you do here is ever sent to a server.
 				</p>
-				<div class="mt-4 flex gap-6">
-					<a href={withBase('/about')} class="hover:text-[#B8860B]">About</a>
-					<a href={withBase('/privacy')} class="hover:text-[#B8860B]">Privacy Policy</a>
-					<a href={withBase('/faq')} class="hover:text-[#B8860B]">FAQ</a>
+				<div class="mt-5 flex flex-wrap gap-6 font-semibold">
+					<a href={withBase('/about')} class="transition hover:text-[#b8860b]">About</a>
+					<a href={withBase('/privacy')} class="transition hover:text-[#b8860b]">Privacy Policy</a>
+					<a href={withBase('/faq')} class="transition hover:text-[#b8860b]">FAQ</a>
 				</div>
-				<p class="mt-4 text-[#8A7B62]">&copy; {new Date().getFullYear()} LuckyToss</p>
+				<p class="mt-5 text-[#8a7e68]">&copy; {year} LuckyToss</p>
 			</div>
 		</footer>
+
+		<style is:global>
+			/* Ad slots reserve layout space but show nothing until a real ad
+			   is dropped in. Empty placeholder boxes can hurt AdSense approval,
+			   so an unfilled slot has no border, no label, and no height. Once a
+			   real <ins>/<iframe> is dropped in, it defines its own size. */
+			.ad-slot {
+				min-height: 0;
+			}
+			.ad-slot:empty {
+				min-height: 0;
+				border: 0;
+			}
+		</style>
 	</body>
 </html>

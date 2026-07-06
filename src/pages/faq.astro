@@ -8,38 +8,42 @@ const faqs = [
 	},
 	{
 		q: 'Is the randomness actually fair?',
-		a: "Yes. LuckyToss uses the browser's built-in Math.random() for both the coin flip and dice roll, giving each outcome an equal, unbiased chance.",
+		a: "Yes. LuckyToss uses the browser's built-in Math.random() for the coin flip and every dice roll, giving each outcome an equal, unbiased chance.",
+	},
+	{
+		q: 'What dice can I roll?',
+		a: 'You can roll 1 to 6 standard six-sided dice, or switch to Custom Dice to roll polyhedral tabletop dice (d4, d6, d8, d10, d12, d20) in any quantity with an optional plus or minus modifier, shown in classic notation like 3d8+2.',
 	},
 	{
 		q: 'Is any of my data saved or uploaded?',
 		a: 'No. Everything — flips, rolls, streaks, and history — happens locally in your browser tab. Nothing is sent to a server, and it all resets when you refresh.',
 	},
 	{
-		q: 'How many dice can I roll at once?',
-		a: 'You can roll between 1 and 6 dice at a time, with a running total and a short history of recent rolls.',
+		q: 'What happens on a hot streak?',
+		a: 'Land a streak of 3 or more of the same coin result, roll all 6s on standard dice, or roll the natural maximum on your polyhedral set, and LuckyToss celebrates with a short confetti animation.',
 	},
 	{
-		q: 'What happens on a hot streak?',
-		a: 'Land a streak of 3 or more of the same coin result, roll all 6s, or hit the maximum possible dice total, and LuckyToss celebrates with a short confetti animation.',
+		q: 'Is there anything to do while I wait?',
+		a: 'Yes. There is a built-in game of Snake tucked below the tools if you want a quick distraction between rolls.',
 	},
 ];
 ---
 
 <Layout
 	title="FAQ — LuckyToss"
-	description="Frequently asked questions about LuckyToss's free, private, browser-based dice roller and coin flip simulator."
+	description="Frequently asked questions about LuckyToss's free, private, browser-based coin flip, dice roller, and polyhedral dice tool."
 	canonicalPath="/faq"
 >
 	<div class="mx-auto max-w-2xl">
-		<h1 class="font-display text-3xl font-semibold tracking-tight text-[#2B2013]">
+		<h1 class="font-[Sora] text-3xl font-extrabold tracking-tight text-[#221b10] sm:text-4xl">
 			Frequently Asked Questions
 		</h1>
-		<div class="mt-8 space-y-8">
+		<div class="mt-8 space-y-5">
 			{
 				faqs.map((item) => (
-					<div class="rounded-xl border border-[#E8DFC8] bg-white p-5">
-						<h2 class="font-display text-lg font-semibold text-[#2B2013]">{item.q}</h2>
-						<p class="mt-2 text-[#5C4F3D]">{item.a}</p>
+					<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6">
+						<h2 class="font-[Sora] text-lg font-bold text-[#221b10]">{item.q}</h2>
+						<p class="mt-2 text-[#4a4234]">{item.a}</p>
 					</div>
 				))
 			}

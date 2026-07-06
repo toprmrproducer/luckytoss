@@ -3,56 +3,64 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-	title="LuckyToss — Dice Roller & Coin Flip"
-	description="Free online dice roller and coin flip simulator. Roll 1-6 animated dice with real pip faces, flip an animated 3D coin, track streaks and history — no signup, 100% client-side."
+	title="LuckyToss — Dice Roller, Coin Flip & Polyhedral Dice"
+	description="Free online coin flip, dice roller, and polyhedral (d4/d6/d8/d10/d12/d20) dice roller with modifiers. Animated 3D coin, true pip faces, streaks and history — no signup, 100% client-side."
 	canonicalPath="/"
 >
 	<section class="text-center">
-		<h1 class="font-display text-4xl font-semibold tracking-tight text-[#2B2013] sm:text-5xl">
-			Roll the Dice, <span class="text-[#C9982E]">Flip the Coin</span>
+		<h1 class="font-[Sora] text-4xl font-extrabold tracking-tight text-[#221b10] sm:text-5xl">
+			Roll the Dice, <span class="text-[#c9982e]">Flip the Coin</span>
 		</h1>
-		<p class="mx-auto mt-4 max-w-2xl text-lg text-[#5C4F3D]">
-			Flip a coin or roll up to six dice, right in your browser. Streaks,
-			running tallies, and a short history included.
+		<p class="mx-auto mt-5 max-w-2xl text-lg text-[#4a4234]">
+			Flip a coin, roll standard dice, or roll a full set of polyhedral
+			dice (d4 through d20) with a modifier &mdash; right in your browser.
+			Streaks, running tallies, and history included.
 		</p>
 	</section>
 
-	<section class="mx-auto mt-10 max-w-2xl text-sm leading-relaxed text-[#8A7B62]">
+	<section class="mx-auto mt-8 max-w-2xl text-[15px] leading-relaxed text-[#8a7e68]">
 		<p>
-			Both tools use <strong class="text-[#5C4F3D]">Math.random()</strong> for
-			fair, unbiased results and run entirely on your device &mdash; nothing is
+			Every tool uses <strong class="text-[#4a4234]">Math.random()</strong> for
+			fair, unbiased results and runs entirely on your device &mdash; nothing is
 			sent to a server. The coin flips through a real 3D CSS animation between
-			hand-drawn heads and tails faces, and the dice show true pip layouts
-			just like a physical die. Land a
-			<strong class="text-[#5C4F3D]">streak of 3+</strong>
-			or roll
-			<strong class="text-[#5C4F3D]">all-6s</strong>
-			for a little celebration.
+			hand-drawn heads and tails faces, standard dice show true pip layouts, and
+			the polyhedral roller handles tabletop dice with an optional
+			<strong class="text-[#4a4234]">+/- modifier</strong>. Land a
+			<strong class="text-[#4a4234]">streak of 3+</strong>, roll
+			<strong class="text-[#4a4234]">all-6s</strong>, or hit a natural
+			<strong class="text-[#4a4234]">max roll</strong> for a little celebration.
 		</p>
 	</section>
 
 	<!-- Tab switcher -->
 	<section class="mx-auto mt-10 max-w-3xl">
-		<div class="flex justify-center gap-2 rounded-xl border border-[#E8DFC8] bg-white p-1.5 shadow-sm">
+		<div class="grid grid-cols-3 gap-2 rounded-xl border border-[#eae4d6] bg-[#faf8f3] p-1.5 shadow-sm">
 			<button
 				id="tab-coin"
 				type="button"
-				class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition"
+				class="rounded-lg px-4 py-2.5 text-[15px] font-bold transition"
 			>
 				Coin Flip
 			</button>
 			<button
 				id="tab-dice"
 				type="button"
-				class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition"
+				class="rounded-lg px-4 py-2.5 text-[15px] font-bold transition"
 			>
 				Dice Roller
+			</button>
+			<button
+				id="tab-poly"
+				type="button"
+				class="rounded-lg px-4 py-2.5 text-[15px] font-bold transition"
+			>
+				Custom Dice
 			</button>
 		</div>
 
 		<!-- ============ COIN FLIP PANEL ============ -->
 		<div id="panel-coin" class="mt-8">
-			<div class="flex flex-col items-center rounded-2xl border border-[#E8DFC8] bg-white p-8 shadow-sm">
+			<div class="flex flex-col items-center rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-8 shadow-sm">
 				<div
 					id="coin-scene"
 					class="relative h-40 w-40"
@@ -75,15 +83,14 @@ import Layout from '../layouts/Layout.astro';
 										<stop offset="100%" stop-color="#B8860B" />
 									</radialGradient>
 								</defs>
-								<circle cx="50" cy="50" r="48" fill="url(#headsGrad)" stroke="#2B2013" stroke-width="2" />
-								<circle cx="50" cy="50" r="40" fill="none" stroke="#FAF6EC" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
-								<!-- simple hand-drawn face -->
-								<circle cx="38" cy="45" r="4" fill="#FAF6EC" />
-								<circle cx="62" cy="45" r="4" fill="#FAF6EC" />
-								<path d="M35 63 Q50 75 65 63" stroke="#FAF6EC" stroke-width="4" fill="none" stroke-linecap="round" />
-								<path d="M30 32 Q38 24 46 30" stroke="#FAF6EC" stroke-width="3" fill="none" stroke-linecap="round" />
-								<path d="M54 30 Q62 24 70 32" stroke="#FAF6EC" stroke-width="3" fill="none" stroke-linecap="round" />
-								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#FAF6EC" font-family="sans-serif">HEADS</text>
+								<circle cx="50" cy="50" r="48" fill="url(#headsGrad)" stroke="#221b10" stroke-width="2" />
+								<circle cx="50" cy="50" r="40" fill="none" stroke="#faf8f3" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+								<circle cx="38" cy="45" r="4" fill="#faf8f3" />
+								<circle cx="62" cy="45" r="4" fill="#faf8f3" />
+								<path d="M35 63 Q50 75 65 63" stroke="#faf8f3" stroke-width="4" fill="none" stroke-linecap="round" />
+								<path d="M30 32 Q38 24 46 30" stroke="#faf8f3" stroke-width="3" fill="none" stroke-linecap="round" />
+								<path d="M54 30 Q62 24 70 32" stroke="#faf8f3" stroke-width="3" fill="none" stroke-linecap="round" />
+								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#faf8f3" font-family="sans-serif">HEADS</text>
 							</svg>
 						</div>
 						<!-- Tails face -->
@@ -94,59 +101,58 @@ import Layout from '../layouts/Layout.astro';
 							<svg viewBox="0 0 100 100" class="h-full w-full drop-shadow-md">
 								<defs>
 									<radialGradient id="tailsGrad" cx="35%" cy="30%" r="75%">
-										<stop offset="0%" stop-color="#5C4F3D" />
-										<stop offset="100%" stop-color="#2B2013" />
+										<stop offset="0%" stop-color="#4a4234" />
+										<stop offset="100%" stop-color="#221b10" />
 									</radialGradient>
 								</defs>
-								<circle cx="50" cy="50" r="48" fill="url(#tailsGrad)" stroke="#2B2013" stroke-width="2" />
-								<circle cx="50" cy="50" r="40" fill="none" stroke="#E8DFC8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5" />
-								<!-- hand-drawn laurel + star -->
-								<path d="M50 28 L54 40 L67 40 L57 48 L61 61 L50 53 L39 61 L43 48 L33 40 L46 40 Z" fill="#E8DFC8" />
-								<path d="M28 55 Q22 65 30 75" stroke="#E8DFC8" stroke-width="2.5" fill="none" stroke-linecap="round" />
-								<path d="M72 55 Q78 65 70 75" stroke="#E8DFC8" stroke-width="2.5" fill="none" stroke-linecap="round" />
-								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#E8DFC8" font-family="sans-serif">TAILS</text>
+								<circle cx="50" cy="50" r="48" fill="url(#tailsGrad)" stroke="#221b10" stroke-width="2" />
+								<circle cx="50" cy="50" r="40" fill="none" stroke="#eae4d6" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5" />
+								<path d="M50 28 L54 40 L67 40 L57 48 L61 61 L50 53 L39 61 L43 48 L33 40 L46 40 Z" fill="#eae4d6" />
+								<path d="M28 55 Q22 65 30 75" stroke="#eae4d6" stroke-width="2.5" fill="none" stroke-linecap="round" />
+								<path d="M72 55 Q78 65 70 75" stroke="#eae4d6" stroke-width="2.5" fill="none" stroke-linecap="round" />
+								<text x="50" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#eae4d6" font-family="sans-serif">TAILS</text>
 							</svg>
 						</div>
 					</div>
 				</div>
 
-				<p id="coin-result-label" class="mt-6 h-7 text-lg font-semibold text-[#2B2013]">
+				<p id="coin-result-label" class="mt-6 h-7 text-lg font-bold text-[#221b10]">
 					Ready to flip
 				</p>
 
 				<button
 					id="flip-btn"
-					class="mt-4 rounded-xl bg-[#C9982E] px-8 py-3 font-semibold text-white transition hover:bg-[#B8860B]"
+					class="mt-4 rounded-xl bg-[#c9982e] px-8 py-3 font-bold text-white transition hover:bg-[#b8860b]"
 				>
 					Flip Coin
 				</button>
 
 				<!-- Tally -->
 				<div class="mt-8 grid w-full max-w-sm grid-cols-3 gap-3 text-center">
-					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
-						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Heads</p>
-						<p id="tally-heads" class="mt-1 text-2xl font-bold text-[#2B2013]">0</p>
+					<div class="rounded-xl border border-[#eae4d6] bg-white p-3">
+						<p class="text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">Heads</p>
+						<p id="tally-heads" class="mt-1 text-2xl font-extrabold text-[#221b10]">0</p>
 					</div>
-					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
-						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Tails</p>
-						<p id="tally-tails" class="mt-1 text-2xl font-bold text-[#2B2013]">0</p>
+					<div class="rounded-xl border border-[#eae4d6] bg-white p-3">
+						<p class="text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">Tails</p>
+						<p id="tally-tails" class="mt-1 text-2xl font-extrabold text-[#221b10]">0</p>
 					</div>
-					<div class="rounded-xl border border-[#E8DFC8] bg-[#FAF6EC] p-3">
-						<p class="text-xs font-medium tracking-wide text-[#8A7B62] uppercase">Streak</p>
-						<p id="tally-streak" class="mt-1 text-2xl font-bold text-[#C9982E]">0</p>
+					<div class="rounded-xl border border-[#eae4d6] bg-white p-3">
+						<p class="text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">Streak</p>
+						<p id="tally-streak" class="mt-1 text-2xl font-extrabold text-[#c9982e]">0</p>
 					</div>
 				</div>
 
 				<button
 					id="coin-reset-btn"
-					class="mt-4 text-sm font-medium text-[#8A7B62] underline decoration-[#E8DFC8] underline-offset-4 transition hover:text-[#B8860B]"
+					class="mt-4 text-sm font-semibold text-[#8a7e68] underline decoration-[#eae4d6] underline-offset-4 transition hover:text-[#b8860b]"
 				>
 					Reset tally
 				</button>
 
 				<!-- History -->
 				<div id="coin-history-wrapper" class="mt-8 hidden w-full max-w-sm">
-					<p class="mb-2 text-xs font-medium tracking-wide text-[#8A7B62] uppercase">
+					<p class="mb-2 text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">
 						Last flips
 					</p>
 					<div id="coin-history-list" class="flex flex-wrap gap-2"></div>
@@ -156,14 +162,14 @@ import Layout from '../layouts/Layout.astro';
 
 		<!-- ============ DICE PANEL ============ -->
 		<div id="panel-dice" class="mt-8 hidden">
-			<div class="flex flex-col items-center rounded-2xl border border-[#E8DFC8] bg-white p-8 shadow-sm">
+			<div class="flex flex-col items-center rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-8 shadow-sm">
 				<div>
-					<label for="dice-count" class="block text-center text-sm font-medium text-[#5C4F3D]">
+					<label for="dice-count" class="block text-center text-[15px] font-semibold text-[#4a4234]">
 						Number of dice
 					</label>
 					<select
 						id="dice-count"
-						class="mt-2 w-40 rounded-lg border border-[#E8DFC8] bg-white px-3 py-2 text-center text-sm text-[#2B2013] focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
+						class="mt-2 w-40 rounded-lg border border-[#eae4d6] bg-white px-3 py-2 text-center text-sm text-[#221b10] focus:border-[#c9982e] focus:ring-1 focus:ring-[#c9982e] focus:outline-none"
 					>
 						<option value="1">1 die</option>
 						<option value="2" selected>2 dice</option>
@@ -176,29 +182,151 @@ import Layout from '../layouts/Layout.astro';
 
 				<div id="dice-tray" class="mt-8 flex flex-wrap items-center justify-center gap-4"></div>
 
-				<p id="dice-sum-label" class="mt-6 h-7 text-lg font-semibold text-[#2B2013]"></p>
+				<p id="dice-sum-label" class="mt-6 h-7 text-lg font-bold text-[#221b10]"></p>
 
 				<button
 					id="roll-btn"
-					class="mt-4 rounded-xl bg-[#C9982E] px-8 py-3 font-semibold text-white transition hover:bg-[#B8860B]"
+					class="mt-4 rounded-xl bg-[#c9982e] px-8 py-3 font-bold text-white transition hover:bg-[#b8860b]"
 				>
 					Roll Dice
 				</button>
 
 				<button
 					id="dice-reset-btn"
-					class="mt-4 text-sm font-medium text-[#8A7B62] underline decoration-[#E8DFC8] underline-offset-4 transition hover:text-[#B8860B]"
+					class="mt-4 text-sm font-semibold text-[#8a7e68] underline decoration-[#eae4d6] underline-offset-4 transition hover:text-[#b8860b]"
 				>
 					Clear history
 				</button>
 
 				<!-- History -->
 				<div id="dice-history-wrapper" class="mt-8 hidden w-full max-w-md">
-					<p class="mb-2 text-xs font-medium tracking-wide text-[#8A7B62] uppercase">
+					<p class="mb-2 text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">
 						Last rolls
 					</p>
 					<div id="dice-history-list" class="flex flex-col gap-2"></div>
 				</div>
+			</div>
+		</div>
+
+		<!-- ============ POLYHEDRAL / CUSTOM DICE PANEL (niche feature) ============ -->
+		<div id="panel-poly" class="mt-8 hidden">
+			<div class="flex flex-col items-center rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-8 shadow-sm">
+				<p class="mb-6 max-w-md text-center text-[15px] text-[#8a7e68]">
+					Tabletop dice for D&amp;D and board games. Pick a die type, how
+					many, and an optional modifier &mdash; then roll.
+				</p>
+
+				<!-- Die type picker -->
+				<div class="w-full max-w-md">
+					<p class="text-center text-[15px] font-semibold text-[#4a4234]">Die type</p>
+					<div id="poly-type-picker" class="mt-3 flex flex-wrap justify-center gap-2">
+						<button type="button" data-die="4" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d4</button>
+						<button type="button" data-die="6" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d6</button>
+						<button type="button" data-die="8" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d8</button>
+						<button type="button" data-die="10" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d10</button>
+						<button type="button" data-die="12" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d12</button>
+						<button type="button" data-die="20" class="poly-type rounded-lg border border-[#eae4d6] bg-white px-4 py-2 text-sm font-bold text-[#4a4234] transition hover:border-[#c9982e]">d20</button>
+					</div>
+				</div>
+
+				<!-- Quantity + modifier -->
+				<div class="mt-6 flex flex-wrap items-end justify-center gap-6">
+					<div>
+						<label for="poly-count" class="block text-center text-[15px] font-semibold text-[#4a4234]">Quantity</label>
+						<select
+							id="poly-count"
+							class="mt-2 w-32 rounded-lg border border-[#eae4d6] bg-white px-3 py-2 text-center text-sm text-[#221b10] focus:border-[#c9982e] focus:ring-1 focus:ring-[#c9982e] focus:outline-none"
+						>
+							<option value="1">1</option>
+							<option value="2" selected>2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div>
+						<label for="poly-modifier" class="block text-center text-[15px] font-semibold text-[#4a4234]">Modifier</label>
+						<div class="mt-2 flex items-center gap-1">
+							<button id="poly-mod-dec" type="button" aria-label="Decrease modifier" class="h-10 w-10 rounded-lg border border-[#eae4d6] bg-white text-lg font-bold text-[#4a4234] transition hover:border-[#c9982e]">&minus;</button>
+							<input
+								id="poly-modifier"
+								type="number"
+								value="0"
+								step="1"
+								class="h-10 w-20 rounded-lg border border-[#eae4d6] bg-white px-2 text-center text-sm font-semibold text-[#221b10] focus:border-[#c9982e] focus:ring-1 focus:ring-[#c9982e] focus:outline-none"
+							/>
+							<button id="poly-mod-inc" type="button" aria-label="Increase modifier" class="h-10 w-10 rounded-lg border border-[#eae4d6] bg-white text-lg font-bold text-[#4a4234] transition hover:border-[#c9982e]">+</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Notation preview -->
+				<p id="poly-notation" class="mt-5 font-[Sora] text-lg font-bold text-[#c9982e]">2d6</p>
+
+				<!-- Result dice tray -->
+				<div id="poly-tray" class="mt-6 flex min-h-[4rem] flex-wrap items-center justify-center gap-3"></div>
+
+				<p id="poly-result-label" class="mt-4 h-7 text-lg font-bold text-[#221b10]"></p>
+
+				<button
+					id="poly-roll-btn"
+					class="mt-4 rounded-xl bg-[#c9982e] px-8 py-3 font-bold text-white transition hover:bg-[#b8860b]"
+				>
+					Roll Dice
+				</button>
+
+				<button
+					id="poly-reset-btn"
+					class="mt-4 text-sm font-semibold text-[#8a7e68] underline decoration-[#eae4d6] underline-offset-4 transition hover:text-[#b8860b]"
+				>
+					Clear history
+				</button>
+
+				<!-- History -->
+				<div id="poly-history-wrapper" class="mt-8 hidden w-full max-w-md">
+					<p class="mb-2 text-xs font-semibold tracking-wide text-[#8a7e68] uppercase">
+						Last rolls
+					</p>
+					<div id="poly-history-list" class="flex flex-col gap-2"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ============ SNAKE BOREDOM-FILLER ============ -->
+	<section class="mx-auto mt-14 max-w-[820px]">
+		<details class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-5">
+			<summary class="cursor-pointer select-none font-[Sora] text-lg font-bold text-[#221b10]">Bored between rolls? Play a quick game of Snake</summary>
+			<div class="mt-4 flex flex-col items-center gap-3">
+				<canvas id="snake-canvas" width="320" height="320" class="rounded-lg border border-[#eae4d6] bg-white" style="touch-action:none"></canvas>
+				<div class="flex items-center gap-4 text-sm text-[#4a4234]">
+					<span>Score: <b id="snake-score">0</b></span>
+					<button id="snake-restart" class="rounded-lg bg-[#c9982e] px-4 py-2 font-semibold text-white transition hover:bg-[#b8860b]">Restart</button>
+				</div>
+				<p class="text-xs text-[#8a7e68]">Arrow keys / WASD, or swipe on mobile.</p>
+			</div>
+		</details>
+	</section>
+
+	<!-- ============ HOW IT WORKS ============ -->
+	<section class="mx-auto mt-14 max-w-[820px]">
+		<h2 class="font-[Sora] text-2xl font-bold text-[#221b10]">How LuckyToss works</h2>
+		<div class="mt-6 grid gap-4 sm:grid-cols-3">
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-5">
+				<h3 class="font-[Sora] text-lg font-bold text-[#221b10]">Coin flip</h3>
+				<p class="mt-2 text-[15px] text-[#4a4234]">A real 3D animated coin with hand-drawn heads and tails, live tallies, and a streak counter.</p>
+			</div>
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-5">
+				<h3 class="font-[Sora] text-lg font-bold text-[#221b10]">Standard dice</h3>
+				<p class="mt-2 text-[15px] text-[#4a4234]">Roll 1 to 6 six-sided dice with true pip faces, a running total, and recent-roll history.</p>
+			</div>
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-5">
+				<h3 class="font-[Sora] text-lg font-bold text-[#221b10]">Polyhedral dice</h3>
+				<p class="mt-2 text-[15px] text-[#4a4234]">Tabletop d4 to d20 with quantity and a +/- modifier, in classic dice notation like 3d8+2.</p>
 			</div>
 		</div>
 	</section>
@@ -241,6 +369,9 @@ import Layout from '../layouts/Layout.astro';
 		.die-face.is-rolling {
 			animation: die-tumble 0.6s ease-out;
 		}
+		.poly-die.is-rolling {
+			animation: die-tumble 0.5s ease-out;
+		}
 		@keyframes die-tumble {
 			0% {
 				transform: rotate(0deg) scale(1);
@@ -255,6 +386,11 @@ import Layout from '../layouts/Layout.astro';
 				transform: rotate(360deg) scale(1);
 			}
 		}
+		.poly-type.is-active {
+			border-color: #c9982e;
+			background-color: #c9982e;
+			color: #ffffff;
+		}
 	</style>
 
 	<script>
@@ -262,9 +398,8 @@ import Layout from '../layouts/Layout.astro';
 
 		// -------------------- Security helper --------------------
 		// Any user-influenced text rendered via innerHTML must be escaped first.
-		// Nothing here is truly "user-controlled" (all values are internally
-		// generated numbers/strings), but every text-insertion path is routed
-		// through this helper as a standing defensive requirement.
+		// The polyhedral modifier is a user-typed <input>, so its parsed/derived
+		// strings are routed through this helper before ever touching innerHTML.
 		const escapeHtml = (value: string): string =>
 			value
 				.replace(/&/g, '&amp;')
@@ -276,32 +411,36 @@ import Layout from '../layouts/Layout.astro';
 		// -------------------- Tab switching --------------------
 		const tabCoin = document.getElementById('tab-coin') as HTMLButtonElement;
 		const tabDice = document.getElementById('tab-dice') as HTMLButtonElement;
+		const tabPoly = document.getElementById('tab-poly') as HTMLButtonElement;
 		const panelCoin = document.getElementById('panel-coin') as HTMLDivElement;
 		const panelDice = document.getElementById('panel-dice') as HTMLDivElement;
+		const panelPoly = document.getElementById('panel-poly') as HTMLDivElement;
 
-		const ACTIVE_TAB = 'flex-1 rounded-lg bg-[#C9982E] px-4 py-2 text-sm font-semibold text-white transition';
+		const ACTIVE_TAB = 'rounded-lg bg-[#c9982e] px-4 py-2.5 text-[15px] font-bold text-white transition';
 		const INACTIVE_TAB =
-			'flex-1 rounded-lg px-4 py-2 text-sm font-semibold text-[#5C4F3D] transition hover:text-[#B8860B]';
+			'rounded-lg px-4 py-2.5 text-[15px] font-bold text-[#4a4234] transition hover:text-[#b8860b]';
 
-		const setTab = (which: 'coin' | 'dice') => {
-			const isCoin = which === 'coin';
-			tabCoin.className = isCoin ? ACTIVE_TAB : INACTIVE_TAB;
-			tabDice.className = !isCoin ? ACTIVE_TAB : INACTIVE_TAB;
-			panelCoin.classList.toggle('hidden', !isCoin);
-			panelDice.classList.toggle('hidden', isCoin);
+		const setTab = (which: 'coin' | 'dice' | 'poly') => {
+			tabCoin.className = which === 'coin' ? ACTIVE_TAB : INACTIVE_TAB;
+			tabDice.className = which === 'dice' ? ACTIVE_TAB : INACTIVE_TAB;
+			tabPoly.className = which === 'poly' ? ACTIVE_TAB : INACTIVE_TAB;
+			panelCoin.classList.toggle('hidden', which !== 'coin');
+			panelDice.classList.toggle('hidden', which !== 'dice');
+			panelPoly.classList.toggle('hidden', which !== 'poly');
 		};
 
 		tabCoin.addEventListener('click', () => setTab('coin'));
 		tabDice.addEventListener('click', () => setTab('dice'));
+		tabPoly.addEventListener('click', () => setTab('poly'));
 		setTab('coin');
 
-		// -------------------- Confetti helper --------------------
+		// -------------------- Confetti helpers --------------------
 		const celebrate = () => {
 			confetti({
 				particleCount: 90,
 				spread: 70,
 				origin: { y: 0.6 },
-				colors: ['#C9982E', '#B8860B', '#E8DFC8', '#2B2013'],
+				colors: ['#c9982e', '#b8860b', '#eae4d6', '#221b10'],
 				disableForReducedMotion: true,
 			});
 		};
@@ -315,7 +454,7 @@ import Layout from '../layouts/Layout.astro';
 					angle: 60,
 					spread: 60,
 					origin: { x: 0, y: 0.6 },
-					colors: ['#C9982E', '#B8860B', '#E8DFC8'],
+					colors: ['#c9982e', '#b8860b', '#eae4d6'],
 					disableForReducedMotion: true,
 				});
 				confetti({
@@ -323,7 +462,7 @@ import Layout from '../layouts/Layout.astro';
 					angle: 120,
 					spread: 60,
 					origin: { x: 1, y: 0.6 },
-					colors: ['#C9982E', '#B8860B', '#E8DFC8'],
+					colors: ['#c9982e', '#b8860b', '#eae4d6'],
 					disableForReducedMotion: true,
 				});
 				if (Date.now() < end) requestAnimationFrame(frame);
@@ -360,8 +499,8 @@ import Layout from '../layouts/Layout.astro';
 				const chip = document.createElement('span');
 				chip.className =
 					side === 'heads'
-						? 'rounded-full bg-[#F3E6C4] px-3 py-1 text-xs font-semibold text-[#8A6A1A]'
-						: 'rounded-full bg-[#E8DFC8] px-3 py-1 text-xs font-semibold text-[#5C4F3D]';
+						? 'rounded-full bg-[#f3e6c4] px-3 py-1 text-xs font-bold text-[#8a6a1a]'
+						: 'rounded-full bg-[#eae4d6] px-3 py-1 text-xs font-bold text-[#4a4234]';
 				chip.textContent = side === 'heads' ? 'H' : 'T';
 				coinHistoryList.appendChild(chip);
 			});
@@ -378,7 +517,6 @@ import Layout from '../layouts/Layout.astro';
 			const willLandTails = result === 'tails';
 
 			coin.classList.remove('is-flipping-heads', 'is-flipping-tails');
-			// force reflow so the animation restarts every click
 			void coin.offsetWidth;
 			coin.classList.add(willLandTails ? 'is-flipping-tails' : 'is-flipping-heads');
 
@@ -432,7 +570,7 @@ import Layout from '../layouts/Layout.astro';
 			renderCoinHistory();
 		});
 
-		// ==================== DICE ROLLER ====================
+		// ==================== STANDARD DICE ROLLER ====================
 		const diceCountSelect = document.getElementById('dice-count') as HTMLSelectElement;
 		const diceTray = document.getElementById('dice-tray') as HTMLDivElement;
 		const diceSumLabel = document.getElementById('dice-sum-label') as HTMLParagraphElement;
@@ -444,43 +582,17 @@ import Layout from '../layouts/Layout.astro';
 		let diceRolling = false;
 		let diceRollHistory: { values: number[]; sum: number }[] = [];
 
-		// Pip layout per face value, as [row, col] on a 3x3 grid (0-indexed)
 		const PIP_LAYOUTS: Record<number, [number, number][]> = {
 			1: [[1, 1]],
-			2: [
-				[0, 0],
-				[2, 2],
-			],
-			3: [
-				[0, 0],
-				[1, 1],
-				[2, 2],
-			],
-			4: [
-				[0, 0],
-				[0, 2],
-				[2, 0],
-				[2, 2],
-			],
-			5: [
-				[0, 0],
-				[0, 2],
-				[1, 1],
-				[2, 0],
-				[2, 2],
-			],
-			6: [
-				[0, 0],
-				[0, 2],
-				[1, 0],
-				[1, 2],
-				[2, 0],
-				[2, 2],
-			],
+			2: [[0, 0], [2, 2]],
+			3: [[0, 0], [1, 1], [2, 2]],
+			4: [[0, 0], [0, 2], [2, 0], [2, 2]],
+			5: [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]],
+			6: [[0, 0], [0, 2], [1, 0], [1, 2], [2, 0], [2, 2]],
 		};
 
-		const CELL = 30; // px spacing per grid cell inside the 100x100 viewBox
-		const OFFSET = 20; // starting position for col/row 0
+		const CELL = 30;
+		const OFFSET = 20;
 
 		const buildDieSvg = (value: number): string => {
 			const pips = PIP_LAYOUTS[value] ?? [];
@@ -492,8 +604,6 @@ import Layout from '../layouts/Layout.astro';
 				})
 				.join('');
 
-			// value/gradient id components are internally generated numbers —
-			// still routed through escapeHtml as a standing defensive measure.
 			const gradId = escapeHtml(`dieGrad-${value}-${Math.random().toString(36).slice(2)}`);
 
 			return `
@@ -504,7 +614,7 @@ import Layout from '../layouts/Layout.astro';
 							<stop offset="100%" stop-color="#FBF3DE" />
 						</linearGradient>
 					</defs>
-					<rect x="4" y="4" width="92" height="92" rx="18" fill="#ffffff" stroke="#E8DFC8" stroke-width="3" />
+					<rect x="4" y="4" width="92" height="92" rx="18" fill="#ffffff" stroke="#eae4d6" stroke-width="3" />
 					${circles}
 				</svg>
 			`;
@@ -538,14 +648,14 @@ import Layout from '../layouts/Layout.astro';
 			diceRollHistory.forEach((roll) => {
 				const row = document.createElement('div');
 				row.className =
-					'flex items-center justify-between rounded-lg border border-[#E8DFC8] bg-[#FAF6EC] px-4 py-2';
+					'flex items-center justify-between rounded-lg border border-[#eae4d6] bg-white px-4 py-2';
 
 				const valuesLabel = document.createElement('span');
-				valuesLabel.className = 'truncate text-sm font-medium text-[#5C4F3D]';
+				valuesLabel.className = 'truncate text-sm font-medium text-[#4a4234]';
 				valuesLabel.textContent = roll.values.join(' + ');
 
 				const sumLabel = document.createElement('span');
-				sumLabel.className = 'shrink-0 text-sm font-bold text-[#C9982E]';
+				sumLabel.className = 'shrink-0 text-sm font-bold text-[#c9982e]';
 				sumLabel.textContent = `= ${roll.sum}`;
 
 				row.appendChild(valuesLabel);
@@ -569,7 +679,6 @@ import Layout from '../layouts/Layout.astro';
 				el.classList.add('is-rolling');
 			});
 
-			// Quick flicker of random faces during the "roll" for visual feedback
 			let ticks = 0;
 			const flicker = setInterval(() => {
 				dieEls.forEach((el) => {
@@ -616,5 +725,240 @@ import Layout from '../layouts/Layout.astro';
 			diceSumLabel.textContent = '';
 			buildDiceTray(Number(diceCountSelect.value));
 		});
+
+		// ==================== POLYHEDRAL / CUSTOM DICE (niche feature) ====================
+		const polyTypePicker = document.getElementById('poly-type-picker') as HTMLDivElement;
+		const polyCountSelect = document.getElementById('poly-count') as HTMLSelectElement;
+		const polyModifierInput = document.getElementById('poly-modifier') as HTMLInputElement;
+		const polyModDec = document.getElementById('poly-mod-dec') as HTMLButtonElement;
+		const polyModInc = document.getElementById('poly-mod-inc') as HTMLButtonElement;
+		const polyNotation = document.getElementById('poly-notation') as HTMLParagraphElement;
+		const polyTray = document.getElementById('poly-tray') as HTMLDivElement;
+		const polyResultLabel = document.getElementById('poly-result-label') as HTMLParagraphElement;
+		const polyRollBtn = document.getElementById('poly-roll-btn') as HTMLButtonElement;
+		const polyResetBtn = document.getElementById('poly-reset-btn') as HTMLButtonElement;
+		const polyHistoryWrapper = document.getElementById('poly-history-wrapper') as HTMLDivElement;
+		const polyHistoryList = document.getElementById('poly-history-list') as HTMLDivElement;
+		const polyTypeButtons = Array.from(
+			polyTypePicker.querySelectorAll<HTMLButtonElement>('.poly-type'),
+		);
+
+		const VALID_SIDES = [4, 6, 8, 10, 12, 20];
+		const MOD_MIN = -50;
+		const MOD_MAX = 50;
+
+		let polyRolling = false;
+		let polySides = 6;
+		let polyHistory: { notation: string; values: number[]; total: number }[] = [];
+
+		// Read + sanitise the user-typed modifier into a safe integer in range.
+		const getModifier = (): number => {
+			const raw = Number.parseInt(polyModifierInput.value, 10);
+			if (Number.isNaN(raw)) return 0;
+			return Math.max(MOD_MIN, Math.min(MOD_MAX, raw));
+		};
+
+		const formatNotation = (): string => {
+			const count = Number(polyCountSelect.value);
+			const mod = getModifier();
+			let s = `${count}d${polySides}`;
+			if (mod > 0) s += `+${mod}`;
+			else if (mod < 0) s += `${mod}`;
+			return s;
+		};
+
+		const updateNotation = () => {
+			// Notation string is fully derived from sanitised numeric state, but
+			// it is written via textContent (not innerHTML) so it cannot inject markup.
+			polyNotation.textContent = formatNotation();
+		};
+
+		// Build a rounded-square token showing the rolled value. Value is always
+		// an internally generated integer; escaped as a standing defensive measure.
+		const buildPolyDie = (value: number, isMax: boolean): HTMLDivElement => {
+			const el = document.createElement('div');
+			el.className =
+				'poly-die flex h-14 w-14 items-center justify-center rounded-xl border-2 font-[Sora] text-lg font-extrabold ' +
+				(isMax
+					? 'border-[#c9982e] bg-[#c9982e] text-white'
+					: 'border-[#eae4d6] bg-white text-[#221b10]');
+			el.textContent = String(value);
+			return el;
+		};
+
+		const setActiveType = (sides: number) => {
+			polySides = sides;
+			polyTypeButtons.forEach((btn) => {
+				const isActive = Number(btn.dataset.die) === sides;
+				btn.classList.toggle('is-active', isActive);
+				btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+			});
+			updateNotation();
+		};
+
+		polyTypeButtons.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const sides = Number(btn.dataset.die);
+				if (VALID_SIDES.includes(sides)) setActiveType(sides);
+			});
+		});
+		setActiveType(6);
+
+		polyCountSelect.addEventListener('change', updateNotation);
+
+		const clampModifierInput = () => {
+			const mod = getModifier();
+			polyModifierInput.value = String(mod);
+			updateNotation();
+		};
+		polyModifierInput.addEventListener('input', updateNotation);
+		polyModifierInput.addEventListener('change', clampModifierInput);
+		polyModifierInput.addEventListener('blur', clampModifierInput);
+		polyModDec.addEventListener('click', () => {
+			polyModifierInput.value = String(Math.max(MOD_MIN, getModifier() - 1));
+			updateNotation();
+		});
+		polyModInc.addEventListener('click', () => {
+			polyModifierInput.value = String(Math.min(MOD_MAX, getModifier() + 1));
+			updateNotation();
+		});
+
+		const renderPolyHistory = () => {
+			if (polyHistory.length === 0) {
+				polyHistoryWrapper.classList.add('hidden');
+				return;
+			}
+			polyHistoryWrapper.classList.remove('hidden');
+			polyHistoryList.innerHTML = '';
+			polyHistory.forEach((roll) => {
+				const row = document.createElement('div');
+				row.className =
+					'flex items-center justify-between gap-3 rounded-lg border border-[#eae4d6] bg-white px-4 py-2';
+
+				const left = document.createElement('span');
+				left.className = 'truncate text-sm font-medium text-[#4a4234]';
+				// notation + individual rolls, all set via textContent (safe).
+				left.textContent = `${roll.notation}: ${roll.values.join(', ')}`;
+
+				const totalLabel = document.createElement('span');
+				totalLabel.className = 'shrink-0 text-sm font-bold text-[#c9982e]';
+				totalLabel.textContent = `= ${roll.total}`;
+
+				row.appendChild(left);
+				row.appendChild(totalLabel);
+				polyHistoryList.appendChild(row);
+			});
+		};
+
+		polyRollBtn.addEventListener('click', () => {
+			if (polyRolling) return;
+			polyRolling = true;
+			polyRollBtn.disabled = true;
+			polyRollBtn.classList.add('opacity-60');
+
+			const count = Number(polyCountSelect.value);
+			const mod = getModifier();
+			polyModifierInput.value = String(mod);
+			const sides = polySides;
+			const notation = formatNotation();
+
+			// Prepare placeholder tokens for the flicker animation.
+			polyTray.innerHTML = '';
+			const tokens: HTMLDivElement[] = [];
+			for (let i = 0; i < count; i += 1) {
+				const el = buildPolyDie(1, false);
+				el.classList.add('is-rolling');
+				polyTray.appendChild(el);
+				tokens.push(el);
+			}
+			polyResultLabel.textContent = 'Rolling…';
+
+			let ticks = 0;
+			const flicker = setInterval(() => {
+				tokens.forEach((el) => {
+					el.textContent = String(Math.floor(Math.random() * sides) + 1);
+				});
+				ticks += 1;
+				if (ticks >= 6) {
+					clearInterval(flicker);
+
+					const values: number[] = [];
+					for (let i = 0; i < count; i += 1) {
+						const value = Math.floor(Math.random() * sides) + 1;
+						values.push(value);
+						const isMax = value === sides;
+						const fresh = buildPolyDie(value, isMax);
+						polyTray.replaceChild(fresh, tokens[i]);
+						tokens[i] = fresh;
+					}
+
+					const rawSum = values.reduce((acc, v) => acc + v, 0);
+					const total = rawSum + mod;
+
+					const modText = mod > 0 ? ` (${rawSum} ${mod > 0 ? '+ ' + mod : ''})` : mod < 0 ? ` (${rawSum} - ${Math.abs(mod)})` : '';
+					polyResultLabel.textContent =
+						count === 1 && mod === 0
+							? `You rolled a ${total}`
+							: `Total: ${total}${modText}`;
+
+					polyHistory.unshift({ notation, values, total });
+					polyHistory = polyHistory.slice(0, 10);
+					renderPolyHistory();
+
+					// Celebrate: every die at max (a "crit set"), or a single natural max.
+					const allMax = count >= 2 && values.every((v) => v === sides);
+					if (allMax) {
+						bigCelebrate();
+					} else if (count === 1 && values[0] === sides) {
+						celebrate();
+					}
+
+					polyRolling = false;
+					polyRollBtn.disabled = false;
+					polyRollBtn.classList.remove('opacity-60');
+				}
+			}, 90);
+		});
+
+		polyResetBtn.addEventListener('click', () => {
+			polyHistory = [];
+			renderPolyHistory();
+			polyTray.innerHTML = '';
+			polyResultLabel.textContent = '';
+		});
+
+		// ==================== SNAKE BOREDOM-FILLER ====================
+		(() => {
+			const cv = document.getElementById('snake-canvas') as HTMLCanvasElement | null;
+			if (!cv) return;
+			const ctx = cv.getContext('2d')!;
+			const G = 16, N = 20;
+			let snake: { x: number; y: number }[], dir: { x: number; y: number }, food: { x: number; y: number }, score: number, alive: boolean;
+			const scoreEl = document.getElementById('snake-score');
+			function rndFood() { return { x: Math.floor(Math.random() * N), y: Math.floor(Math.random() * N) }; }
+			function reset() { snake = [{ x: 10, y: 10 }]; dir = { x: 0, y: 0 }; food = rndFood(); score = 0; alive = true; if (scoreEl) scoreEl.textContent = '0'; }
+			function step() {
+				if (!alive) return;
+				if (dir.x === 0 && dir.y === 0) { draw(); return; }
+				const h = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+				if (h.x < 0 || h.y < 0 || h.x >= N || h.y >= N || snake.some((s) => s.x === h.x && s.y === h.y)) { alive = false; draw(); return; }
+				snake.unshift(h);
+				if (h.x === food.x && h.y === food.y) { score++; if (scoreEl) scoreEl.textContent = String(score); food = rndFood(); } else snake.pop();
+				draw();
+			}
+			function draw() {
+				ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cv!.width, cv!.height);
+				ctx.fillStyle = '#c9982e'; snake.forEach((s) => ctx.fillRect(s.x * G + 1, s.y * G + 1, G - 2, G - 2));
+				ctx.fillStyle = '#221b10'; ctx.fillRect(food.x * G + 3, food.y * G + 3, G - 6, G - 6);
+				if (!alive) { ctx.fillStyle = 'rgba(34,27,16,0.72)'; ctx.fillRect(0, 0, cv!.width, cv!.height); ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Sora, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Game Over — Restart', cv!.width / 2, cv!.height / 2); }
+			}
+			function turn(x: number, y: number) { if ((x !== 0 && dir.x === 0) || (y !== 0 && dir.y === 0)) dir = { x, y }; }
+			window.addEventListener('keydown', (e) => { const k = e.key.toLowerCase(); if (['arrowup', 'w'].includes(k)) turn(0, -1); else if (['arrowdown', 's'].includes(k)) turn(0, 1); else if (['arrowleft', 'a'].includes(k)) turn(-1, 0); else if (['arrowright', 'd'].includes(k)) turn(1, 0); else return; e.preventDefault(); }, { passive: false });
+			let tx: number, ty: number;
+			cv.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+			cv.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0); else turn(0, dy > 0 ? 1 : -1); }, { passive: true });
+			document.getElementById('snake-restart')?.addEventListener('click', reset);
+			reset(); setInterval(step, 110);
+		})();
 	</script>
 </Layout>
